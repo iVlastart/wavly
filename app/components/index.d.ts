@@ -13,5 +13,6 @@ export interface IInput{
 
 export interface IButton{
     content: any,
+    onClick: (e:MouseEvent)=>void
     element: IElement
 }

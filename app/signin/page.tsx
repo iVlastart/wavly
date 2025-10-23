@@ -1,12 +1,18 @@
 "use client"
-import Link from "next/link";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { useRouter } from "next/navigation";
+import { auth } from "../firebase/firebase";
+import { signinSubmit } from "../hooks/formSubmit";
+import { Button } from "../components/button";
+import { Input } from "../components/input";
 import { useState } from "react";
+import { useCreateUserWithEmailAndPassword, useSendEmailVerification } from 'react-firebase-hooks/auth';
 
 export default function Signin(){
+    const [createUser] = useCreateUserWithEmailAndPassword(auth);
+    const [sendEmailVerification] = useSendEmailVerification(auth);
     const [email, setEmail] = useState<string>('');
     const [psw, setPsw] = useState<string>('');
+    const router = useRouter();
     return(
         <>
             <header>
@@ -25,10 +31,13 @@ export default function Signin(){
                     name: '',
                     className: ''
                 }} limit={50} onChange={(e:any)=>setPsw(e.target.value)}/>
-                <Button content={<Link href={'/'}>Sign In</Link>} element={{
+                <Button content={'Sign In'} element={{
                     id: 'btnSignin',
                     name: '',
                     className: ''
+                }} onClick={(e:any)=>{
+                    signinSubmit(email, psw);
+                    router.push('/');
                 }} />
             </main>
         </>
