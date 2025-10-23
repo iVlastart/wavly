@@ -1,7 +1,12 @@
+"use client"
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { useState } from "react";
 
 export default function Signin(){
+    const [email, setEmail] = useState<string>('');
+    const [psw, setPsw] = useState<string>('');
     return(
         <>
             <header>
@@ -14,13 +19,13 @@ export default function Signin(){
                     id: 'txtUsername',
                     name: '',
                     className: ''
-                }} limit={50}/>
+                }} limit={50} onChange={(e:any)=>setEmail(e.target.value)}/>
                 <Input type="password" placeholder="" element={{
                     id: 'pswPassword',
                     name: '',
                     className: ''
-                }} limit={50}/>
-                <Button content="signin" element={{
+                }} limit={50} onChange={(e:any)=>setPsw(e.target.value)}/>
+                <Button content={<Link href={'/'}>Sign In</Link>} element={{
                     id: 'btnSignin',
                     name: '',
                     className: ''
