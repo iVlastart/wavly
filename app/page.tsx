@@ -2,13 +2,20 @@
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/firebase";
 import { Navbar } from "./ui/sidebar";
+import { Header } from "./ui/header";
 
 export default function Home() {
-  const [user] = useAuthState(auth);
-  
+  const [user, loading] = useAuthState(auth);
+
+  if (loading) return <p>Loading...</p>;
   return (
       <>
-        <Navbar username={user?.email??''} />
+        <Header/>
+        {
+          user
+            ? <Navbar username={user?.displayName??''} />
+            : ''
+        }
       </>  
     );
 }

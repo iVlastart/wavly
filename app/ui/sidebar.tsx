@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Sidebar, Menu, MenuItem, Submenu, Logo } from "react-mui-sidebar";
 import AccessAlarms from "@mui/icons-material/AccessAlarms";
 import CottageOutlinedIcon from "@mui/icons-material/CottageOutlined";
@@ -9,10 +7,6 @@ import { INavbar } from ".";
 
 export const Navbar = ({username}:INavbar) => {
   return (
-    <>
-      {
-        username!==''
-          ?
           <Sidebar width={"270px"} onLogout={handleLogout}>
             <Logo
               component={Link}
@@ -60,12 +54,5 @@ export const Navbar = ({username}:INavbar) => {
               </MenuItem>
             </Menu>
           </Sidebar>
-          :
-          <header>
-            login
-          </header>
-
-      }
-    </>
   );
 };
