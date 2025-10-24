@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { auth } from "../firebase/firebase";
-import { signinSubmit } from "../hooks/formSubmit";
+import { signinSubmit } from "../hooks/auth";
 import { Button } from "../components/button";
 import { Input } from "../components/input";
 import { useState } from "react";

@@ -8,7 +8,7 @@ export default function Home() {
   
   return (
       <>
-        <Navbar/>
+        <Navbar username={user?.email??''} />
       </>  
     );
 }
