@@ -7,7 +7,7 @@ import { INavbar } from ".";
 
 export const Navbar = ({username}:INavbar) => {
   return (
-          <Sidebar width={"270px"} onLogout={handleLogout}>
+          <Sidebar width={"270px"} userName={username} userimg="" designation="" onLogout={handleLogout}>
             <Logo
               component={Link}
               href="/"
@@ -20,7 +20,6 @@ export const Navbar = ({username}:INavbar) => {
                 icon={<CottageOutlinedIcon />}
                 component={Link}
                 link="/tes"
-                badge={true}
                 isSelected={true}
               >
                 {" "}
