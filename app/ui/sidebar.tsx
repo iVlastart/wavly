@@ -3,11 +3,12 @@ import AccessAlarms from "@mui/icons-material/AccessAlarms";
 import CottageOutlinedIcon from "@mui/icons-material/CottageOutlined";
 import Link from "next/link";
 import { handleLogout } from "../hooks/auth";
+import { getCurrentUser } from "../firebase/db";
 import { INavbar } from ".";
 
-export const Navbar = ({username}:INavbar) => {
+export const Navbar = ({name, username}:INavbar) => {
   return (
-          <Sidebar width={"270px"} userName={username} userimg="" designation="" onLogout={handleLogout}>
+          <Sidebar width={"270px"} userName={name} userimg="" designation={'@'+username} onLogout={handleLogout} showProfile={true}>
             <Logo
               component={Link}
               href="/"

@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, DocumentSnapshot, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 export const addUserToDb = async(uid:string, username:string)=>{
@@ -6,6 +6,7 @@ export const addUserToDb = async(uid:string, username:string)=>{
         UID: uid,
         Name: username,
         Username: username,
+        pfp: '',
         Bio: '',
         Follower: 0,
         Following: 0,
@@ -17,6 +18,6 @@ export const getCurrentUser = async(uid:string)=>{
     const docSnap = await getDoc(docRef);
 
     if(docSnap.exists()){
-        console.log(docSnap.data());
+        return docSnap.data();
     }
 };
