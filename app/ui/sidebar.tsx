@@ -11,7 +11,7 @@ export const Navbar = ({username}:INavbar) => {
             <Logo
               component={Link}
               href="/"
-              img="https://adminmart.com/wp-content/uploads/2024/03/logo-admin-mart-news.png"
+              img=""
             >
               Wavly
             </Logo>
@@ -37,21 +37,6 @@ export const Navbar = ({username}:INavbar) => {
             <Menu subHeading="APPS">
               <MenuItem>Chat</MenuItem>
               <MenuItem>Calendar</MenuItem>
-            </Menu>
-            <Menu subHeading="OTHERS">
-              <Submenu title="Menu Level">
-                <MenuItem>Post</MenuItem>
-                <MenuItem>Details</MenuItem>
-                <Submenu title="Level 2">
-                  <MenuItem>new</MenuItem>
-                  <MenuItem>Hello</MenuItem>
-                </Submenu>
-                  </Submenu>
-
-              <MenuItem>Chip</MenuItem>
-              <MenuItem target="_blank" component={Link} link="https://google.com">
-                External Link
-              </MenuItem>
             </Menu>
           </Sidebar>
   );
