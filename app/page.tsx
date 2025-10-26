@@ -1,7 +1,7 @@
 'use client'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/firebase";
-import { Navbar } from "./ui/sidebar";
+import { Navbar } from "./ui/navbar";
 import { Header } from "./ui/header";
 import { getCurrentUser } from "./firebase/db";
 import { useEffect, useState } from "react";

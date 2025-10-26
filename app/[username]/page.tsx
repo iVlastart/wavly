@@ -4,7 +4,7 @@ import { IProfile } from ".";
 import { auth } from "../firebase/firebase";
 import { use, useEffect, useState } from "react";
 import { Header } from "../ui/header";
-import { Navbar } from "../ui/sidebar";
+import { Navbar } from "../ui/navbar";
 import { getCurrentUser } from "../firebase/db";
 
 export default function Profile({params}:IProfile){
