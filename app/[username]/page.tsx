@@ -5,20 +5,25 @@ import { auth } from "../firebase/firebase";
 import { use, useEffect, useState } from "react";
 import { Header } from "../ui/header";
 import { Navbar } from "../ui/navbar";
-import { getUser } from "../firebase/db";
+import { getUserByUID } from "../firebase/db";
+import { Button } from "../components/button";
 
 export default function Profile({params}:IProfile){
     const [user, loading] = useAuthState(auth);
     const { username } = use(params);
 
     const [name, setName] = useState<string>('');
+    const [followers, setFollowers] = useState<number>(0);
+    const [following, setFollowing] = useState<number>(0);
     const [bio, setBio] = useState<string>('');
     
     useEffect(()=>{
       if(!user) return;
-      getUser(user!.uid).then(data=>{
+      getUserByUID(user!.uid).then(data=>{
         setName(data!.Name);
         setBio(data!.Bio);
+        setFollowers(data!.Followers);
+        setFollowing(data!.Following);
       });
     },[user]);
 
@@ -30,7 +35,7 @@ export default function Profile({params}:IProfile){
             {user && <Navbar name={name ?? ''} username={username ?? ''} />}
   
             {/* Header for the user pfp, username, Bio, etc... */}
-            <header className="flex flex-col items-center gap-2 pl-24 border border-black">
+            <header className="flex flex-col justify-center gap-2 pl-24 border border-black w-screen">
               <div className="flex flex-row items-center gap-2">
                 <img
                   src="/defaultPfp.webp"
@@ -40,9 +45,22 @@ export default function Profile({params}:IProfile){
                     <span className="text-2xl">
                       {name}
                     </span>
-                    <span>
+                    <span className="text-gray-400 w-">
                       @{username}
                     </span>
+                  </div>
+                  <div className="flex items-center gap-4 ml-auto mr-24">
+                    <span className="text-xl">
+                      {followers} {followers===1?'Follower':'Followers'}
+                    </span>
+                    <span className="text-xl">
+                      {following} Following
+                    </span>
+                    <Button content={'Follow'} onClick={()=>{}} element={{
+                      id: 'btnFollow',
+                      name: '',
+                      className: 'w-24 h-12 text-3xl pl-1'
+                    }} />
                   </div>
               </div>
             </header>

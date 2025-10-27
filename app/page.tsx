@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/firebase";
 import { Navbar } from "./ui/navbar";
 import { Header } from "./ui/header";
-import { getCurrentUser, getUser } from "./firebase/db";
+import { getCurrentUser } from "./firebase/db";
 
 export default function Home() {
   const [user, loading] = useAuthState(auth);

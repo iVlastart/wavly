@@ -1,4 +1,4 @@
-import { doc, DocumentSnapshot, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, DocumentSnapshot, getDoc, query, setDoc, where } from "firebase/firestore";
 import { auth, db } from "./firebase";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -10,12 +10,12 @@ export const addUserToDb = async(uid:string, username:string)=>{
         Username: username,
         pfp: '',
         Bio: '',
-        Follower: 0,
+        Followers: 0,
         Following: 0,
     });
 };
 
-export const getUser = async(uid:string)=>{
+export const getUserByUID = async(uid:string)=>{
     const docRef = doc(db,'users',uid);
     const docSnap = await getDoc(docRef);
 
@@ -31,7 +31,7 @@ export const getCurrentUser = ()=>{
     if(!user) return;
     const uid = user!.uid;
     
-    getUser(uid).then(data=>{
+    getUserByUID(uid).then(data=>{
         setName(data!.Name);
         setUsername(data!.Username);
     })
@@ -41,3 +41,12 @@ export const getCurrentUser = ()=>{
     return {name: name, username: username}
 
 };
+
+export const getUserByUsername = async(username:string)=>{
+    const usersRef = collection(db, 'users');
+
+    const q = query(usersRef, where('Username','==',username));
+}
+
+/*.collection("users")
+.where("Username", "==", "")*/
