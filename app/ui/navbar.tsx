@@ -41,8 +41,8 @@ export const Navbar = ({name, username}:INavbar)=>{
       </main>
       {/* Profile */}
       <Link href={username} className="flex flex-row justify-center gap-3 items-center cursor-pointer transition-all duration-300">
-        <img src={'/defaultPfp.webp'} alt="" className="rounded-full size-16" />
-          <div className="flex flex-col">
+        <img src={'/defaultPfp.webp'} alt="" className={`rounded-full ${open?'size-16':'size-8 self-center'}`} />
+          <div className={`flex flex-col ${open?'visible':'hidden'}`}>
             <span className="text-xl">
               {name}
             </span>
