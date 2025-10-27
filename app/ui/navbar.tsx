@@ -3,12 +3,16 @@ import { INavbar } from ".";
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { NavbarLinks } from "./navbarLinks";
+import HomeIcon from '@mui/icons-material/Home';
+import AddIcon from '@mui/icons-material/Add';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export const Navbar = ({name, username}:INavbar)=>{
   const [open, setOpen] = useState<Boolean>(true);
   const links = [
-    {name: 'Home', link: '/'},
-    {name: 'Create', link: 'create'},
+    {name: 'Home', link: '/', icon: <HomeIcon/>},
+    {name: 'Create', link: 'create', icon: <AddIcon/>},
+    {name: 'Notifications', link: 'notifications', icon: <NotificationsIcon/>}
   ];
   
   return(
@@ -30,10 +34,16 @@ export const Navbar = ({name, username}:INavbar)=>{
       <main className="flex flex-col">
           {
             links.map((link, key)=>(
-              <NavbarLinks key={key} name={link.name} link={link.name} />
+              <NavbarLinks key={key} name={link.name} link={link.link} icon={link.icon} open={open} />
             ))
           }
       </main>
+      {/* Profile */}
+      <footer className="flex flex-col">
+          <div>
+            <span className="text-xl">{name}</span>
+          </div>
+      </footer>
     </div>
   );
 };

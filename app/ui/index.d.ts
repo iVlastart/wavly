@@ -5,5 +5,7 @@ export interface INavbar{
 
 export interface INavbarLinks{
     name: string,
-    link: string
+    link: string,
+    icon: ReactNode,
+    open: Boolean
 }
