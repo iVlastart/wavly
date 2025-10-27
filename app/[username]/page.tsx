@@ -5,26 +5,30 @@ import { auth } from "../firebase/firebase";
 import { use, useEffect, useState } from "react";
 import { Header } from "../ui/header";
 import { Navbar } from "../ui/navbar";
-import { getCurrentUser } from "../firebase/db";
+import { getUser } from "../firebase/db";
 
 export default function Profile({params}:IProfile){
     const [user, loading] = useAuthState(auth);
     const { username } = use(params);
 
-      const [name, setName] = useState<string>();
-      
-      useEffect(()=>{
-        if(!user) return;
-        getCurrentUser(user!.uid).then(data=>{
-          setName(data!.Name);
-        });
-      },[user]);
+    const [name, setName] = useState<string>();
+    
+    useEffect(()=>{
+      if(!user) return;
+      getUser(user!.uid).then(data=>{
+        setName(data!.Name);
+      });
+    },[user]);
 
     if (loading) return <p>Loading...</p>;
     return(
         <>
             <Header/>
-            <Navbar name={name??''} username={username??''} />
+            {
+          user
+            ? <Navbar name={name??''} username={username??''} />
+            : ''
+          }
             
         </>
     )

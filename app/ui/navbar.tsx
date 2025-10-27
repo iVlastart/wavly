@@ -6,6 +6,7 @@ import { NavbarLinks } from "./navbarLinks";
 import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Link from "next/link";
 
 export const Navbar = ({name, username}:INavbar)=>{
   const [open, setOpen] = useState<Boolean>(true);
@@ -39,11 +40,17 @@ export const Navbar = ({name, username}:INavbar)=>{
           }
       </main>
       {/* Profile */}
-      <footer className="flex flex-col">
-          <div>
-            <span className="text-xl">{name}</span>
+      <Link href={username} className="flex flex-row justify-center gap-3 items-center cursor-pointer transition-all duration-300">
+        <img src={'/defaultPfp.webp'} alt="" className="rounded-full size-16" />
+          <div className="flex flex-col">
+            <span className="text-xl">
+              {name}
+            </span>
+            <span className="text-gray-400 text-sm">
+              @{username}
+            </span>
           </div>
-      </footer>
+      </Link>
     </div>
   );
 };
