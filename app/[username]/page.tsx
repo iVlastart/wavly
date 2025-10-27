@@ -5,7 +5,7 @@ import { auth } from "../firebase/firebase";
 import { use, useEffect, useState } from "react";
 import { Header } from "../ui/header";
 import { Navbar } from "../ui/navbar";
-import { getUserByUID } from "../firebase/db";
+import { getUserByUID, getUserByUsername } from "../firebase/db";
 import { Button } from "../components/button";
 
 export default function Profile({params}:IProfile){
@@ -19,7 +19,7 @@ export default function Profile({params}:IProfile){
     
     useEffect(()=>{
       if(!user) return;
-      getUserByUID(user!.uid).then(data=>{
+      getUserByUsername(username).then(data=>{
         setName(data!.Name);
         setBio(data!.Bio);
         setFollowers(data!.Followers);

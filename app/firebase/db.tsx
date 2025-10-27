@@ -1,4 +1,4 @@
-import { collection, doc, DocumentSnapshot, getDoc, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, DocumentSnapshot, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { auth, db } from "./firebase";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -42,10 +42,20 @@ export const getCurrentUser = ()=>{
 
 };
 
-export const getUserByUsername = async(username:string)=>{
+export const getUserByUsername = async(username:string):Promise<IUser|undefined>=>{
     const usersRef = collection(db, 'users');
 
     const q = query(usersRef, where('Username','==',username));
+
+    try {
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            const docSnap = querySnapshot.docs[0];
+            return docSnap.data() as IUser;
+        }
+    } catch (error) {
+        console.error('Error getting documents: ', error);
+    }
 }
 
 /*.collection("users")
