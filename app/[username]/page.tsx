@@ -5,7 +5,7 @@ import { auth } from "../firebase/firebase";
 import { use, useEffect, useState } from "react";
 import { Header } from "../ui/header";
 import { Navbar } from "../ui/navbar";
-import { getUserByUID, getUserByUsername } from "../firebase/db";
+import { getIsFollowing, getUserByUID, getUserByUsername } from "../firebase/db";
 import { Button } from "../components/button";
 import { handleFollow } from "../firebase/db"
 
@@ -13,6 +13,8 @@ export default function Profile({params}:IProfile){
     const [user, loading] = useAuthState(auth);
     const { username } = use(params);
 
+    const [authName, setAuthName] = useState<string>('');
+    const [authUsername, setAuthUsername] = useState<string>('');
     const [uid, setUid] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [followers, setFollowers] = useState<number>(0);
@@ -22,6 +24,13 @@ export default function Profile({params}:IProfile){
     
     useEffect(()=>{
       if(!user) return;
+      getUserByUID(user.uid).then(data=>{
+        setAuthName(data!.Name);
+        setAuthUsername(data!.Username);
+      }).catch(()=>{
+        setAuthName('');
+        setAuthUsername('');
+      })
       getUserByUsername(username).then(data=>{
         setUid(data!.UID);
         setName(data!.Name);
@@ -29,6 +38,13 @@ export default function Profile({params}:IProfile){
         setFollowers(data!.Followers);
         setFollowing(data!.Following);
       });
+      getIsFollowing(user!.uid, uid).then(data=>{
+        setIsFollowed(data!.isFollowed);
+      })
+      .catch(()=>{
+        //console.error('Error getting follow');
+        setIsFollowed(false);
+      })
     },[user]);
 
     if (loading) return <p>Loading...</p>;
@@ -36,7 +52,7 @@ export default function Profile({params}:IProfile){
         <>
           <Header />
           <div className="flex items-center">
-            {user && <Navbar name={name ?? ''} username={username ?? ''} />}
+            {user && <Navbar name={authName ?? ''} username={authUsername ?? ''} />}
   
             {/* Header for the user pfp, username, Bio, etc... */}
             <header className="flex flex-col justify-center gap-2 pl-24 border border-black w-screen">
@@ -60,11 +76,20 @@ export default function Profile({params}:IProfile){
                     <span className="text-xl">
                       {following} Following
                     </span>
-                    <Button content={'Follow'} onClick={()=>handleFollow(user!.uid,uid,isFollowed)} element={{
-                      id: 'btnFollow',
-                      name: '',
-                      className: 'w-24 h-12 text-3xl pl-1'
-                    }} />
+                    {
+                      user!.uid===uid
+                        ?<Button content={'Edit'} onClick={()=>{}} element={{
+                            id: 'btnFollow',
+                            name: '',
+                            className: 'w-24 h-12 text-3xl pl-1'
+                          }} />
+                        :<Button content={isFollowed?'Following':'Follow'} onClick={()=>handleFollow(user!.uid,uid,isFollowed)} 
+                            element={{
+                              id: 'btnFollow',
+                              name: '',
+                              className: `w-24 h-12 text-3xl pl-1 ${isFollowed?'bg-gray-400':''}`
+                            }} />
+                    }
                   </div>
               </div>
               <span className="self-center pt-5 text-lg">

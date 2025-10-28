@@ -59,10 +59,16 @@ export const getUserByUsername = async(username:string):Promise<IUser|undefined>
 }
 
 export const handleFollow = async(authUID:string,UID:string,isFollowed:boolean)=>{
-    //uid1+/+uid2
-    await setDoc(doc(db, 'follow',authUID+'/'+UID),{
+    await setDoc(doc(db, 'follow',`${authUID}_${UID}`),{
         follower: authUID,
         following: UID,
         isFollowed: !isFollowed
     });
+};
+
+export const getIsFollowing = async(authUID:string,UID:string)=>{
+    const docRef = doc(db,'follow',`${authUID}_${UID}`);
+    const docSnap = await getDoc(docRef);
+
+    if(docSnap.exists()) return docSnap.data();
 };
