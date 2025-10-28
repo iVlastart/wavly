@@ -58,5 +58,11 @@ export const getUserByUsername = async(username:string):Promise<IUser|undefined>
     }
 }
 
-/*.collection("users")
-.where("Username", "==", "")*/
+export const handleFollow = async(authUID:string,UID:string,isFollowed:boolean)=>{
+    //uid1+/+uid2
+    await setDoc(doc(db, 'follow',authUID+'/'+UID),{
+        follower: authUID,
+        following: UID,
+        isFollowed: !isFollowed
+    });
+};

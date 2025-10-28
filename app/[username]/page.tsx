@@ -7,19 +7,23 @@ import { Header } from "../ui/header";
 import { Navbar } from "../ui/navbar";
 import { getUserByUID, getUserByUsername } from "../firebase/db";
 import { Button } from "../components/button";
+import { handleFollow } from "../firebase/db"
 
 export default function Profile({params}:IProfile){
     const [user, loading] = useAuthState(auth);
     const { username } = use(params);
 
+    const [uid, setUid] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [followers, setFollowers] = useState<number>(0);
     const [following, setFollowing] = useState<number>(0);
     const [bio, setBio] = useState<string>('');
+    const [isFollowed, setIsFollowed] = useState<boolean>(false);
     
     useEffect(()=>{
       if(!user) return;
       getUserByUsername(username).then(data=>{
+        setUid(data!.UID);
         setName(data!.Name);
         setBio(data!.Bio);
         setFollowers(data!.Followers);
@@ -56,13 +60,16 @@ export default function Profile({params}:IProfile){
                     <span className="text-xl">
                       {following} Following
                     </span>
-                    <Button content={'Follow'} onClick={()=>{}} element={{
+                    <Button content={'Follow'} onClick={()=>handleFollow(user!.uid,uid,isFollowed)} element={{
                       id: 'btnFollow',
                       name: '',
                       className: 'w-24 h-12 text-3xl pl-1'
                     }} />
                   </div>
               </div>
+              <span className="self-center pt-5 text-lg">
+                {bio}
+              </span>
             </header>
           </div>
         </>
